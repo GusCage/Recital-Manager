@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recital Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <header class="topbar">
+        <a class="brand" href="#">♫ Recital Manager</a>
+        <span class="tag">GESTÃO DO RECITAL</span>
+    </header>
+
+    <main class="container">
+        <section class="page-heading">
+            <div>
+                <p class="eyebrow">ESCOLA DE MÚSICA</p>
+                <h1>Cadastro de músicas</h1>
+                <p class="muted">Cadastre e organize as apresentações dos alunos.</p>
+            </div>
+        </section>
+
+        <section class="stats">
+            <article class="stat-card">
+                <span class="muted">Músicas cadastradas</span>
+                <strong id="totalMusicas">0</strong>
+            </article>
+            <article class="stat-card">
+                <span class="muted">Alunos participantes</span>
+                <strong id="totalAlunos">0</strong>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="section-heading">
+                <div>
+                    <h2 id="formTitle">Nova apresentação</h2>
+                    <p class="muted">Preencha os dados da música.</p>
+                </div>
+            </div>
+
+            <form id="musicForm">
+                <div class="form-grid">
+                    <label>
+                        Nome do aluno *
+                        <input id="aluno" name="aluno" required maxlength="100" placeholder="Ex.: Pedro Silva">
+                    </label>
+
+                    <label>
+                        Professor responsável *
+                        <input id="professor" name="professor" required maxlength="100" placeholder="Ex.: João">
+                    </label>
+
+                    <label>
+                        Nome da música *
+                        <input id="musica" name="musica" required maxlength="150"
+                            placeholder="Ex.: Smells Like Teen Spirit">
+                    </label>
+
+                    <label>
+                        Artista ou compositor
+                        <input id="artista" name="artista" maxlength="150" placeholder="Ex.: Nirvana">
+                    </label>
+
+                    <label>
+                        Instrumento *
+                        <select id="instrumento" name="instrumento" required>
+                            <option value="">Selecione</option>
+                            <option>Violão</option>
+                            <option>Guitarra</option>
+                            <option>Piano</option>
+                            <option>Teclado</option>
+                            <option>Bateria</option>
+                            <option>Baixo</option>
+                            <option>Violino</option>
+                            <option>Canto</option>
+                            <option>Saxofone</option>
+                            <option>Flauta</option>
+                            <option>Outro</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Gênero musical *
+                        <select id="genero" name="genero" required>
+                            <option value="">Selecione</option>
+                            <option>Rock</option>
+                            <option>Pop</option>
+                            <option>Erudito</option>
+                            <option>Jazz</option>
+                            <option>MPB</option>
+                            <option>Blues</option>
+                            <option>Gospel</option>
+                            <option>Metal</option>
+                            <option>Outro</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Tom da música
+                        <input id="tom" name="tom" maxlength="30" placeholder="Ex.: Fá menor (Fm)">
+                    </label>
+
+                    <fieldset class="duration-field">
+                        <legend>Duração *</legend>
+                        <div class="duration-inputs">
+                            <label>
+                                Minutos
+                                <input id="minutos" type="number" min="0" max="300" value="0" required>
+                            </label>
+                            <label>
+                                Segundos
+                                <input id="segundos" type="number" min="0" max="59" value="0" required>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <label class="full-width">
+                        Observações
+                        <textarea id="observacoes" name="observacoes" rows="2" maxlength="500"
+                            placeholder="Ex.: apresentação com banda"></textarea>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button class="button button-primary" type="submit" id="submitButton">
+                        + Cadastrar música
+                    </button>
+                    <button class="button button-secondary" type="button" id="cancelEdit" hidden>Cancelar
+                        edição</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="panel">
+            <div class="section-heading list-heading">
+                <div>
+                    <h2>Músicas cadastradas</h2>
+                    <p class="muted">Pesquise e confira os registros.</p>
+                </div>
+                <input id="searchInput" class="search-input" type="search"
+                    placeholder="Buscar música, aluno, gênero...">
+            </div>
+
+            <div id="emptyState" class="empty-state">
+                <span class="empty-icon">♫</span>
+                <h3>Nenhuma música cadastrada</h3>
+                <p>Use o formulário acima para adicionar a primeira apresentação.</p>
+            </div>
+
+            <div class="table-wrapper" id="tableWrapper" hidden>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aluno / Música</th>
+                            <th>Instrumento</th>
+                            <th>Gênero</th>
+                            <th>Tom</th>
+                            <th>Duração</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="musicTableBody"></tbody>
+                </table>
+            </div>
+            <p id="resultCount" class="muted result-count"></p>
+        </section>
+
+        <p class="disclaimer">
+            Protótipo local: os dados ficam salvos somente neste navegador.
+        </p>
+    </main>
+
+    <footer>
+        Recital Manager · Primeira versão
+    </footer>
+</body>
+
+</html>
